@@ -1,0 +1,11 @@
+{
+  "codeowners": ["@barleybobs"],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/boralyl/github-custom-component-tutorial",
+  "domain": "ecowater_softener",
+  "name": "Ecowater Softener",
+  "requirements": ["ecowater-softener==0.0.3"],
+  "iot_class": "cloud_polling",
+  "version": "1.0.1"
+}

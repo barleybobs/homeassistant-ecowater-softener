@@ -1,0 +1,12 @@
+DOMAIN = "ecowater_softener"
+
+ATTR_STATUS = "status"
+ATTR_DAYS_UNTIL_OUT_OF_SALT = "days_until_out_of_salt"
+ATTR_OUT_OF_SALT_ON = "out_of_salt_on"
+ATTR_SALT_LEVEL_PERCENTAGE = "salt_level_percentage"
+ATTR_WATER_USAGE_TODAY = "water_used_today"
+ATTR_WATER_USAGE_DAILY_AVERAGE = "water_used_per_day_average"
+ATTR_WATER_AVAILABLE = "water_available"
+ATTR_WATER_UNITS = "water_units"
+ATTR_RECHARGE_ENABLED = "recharge_enabled"
+ATTR_RECHARGE_SCHEDULED = "recharge_scheduled"

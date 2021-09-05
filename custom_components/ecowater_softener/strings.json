@@ -1,0 +1,15 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "data": {
+          "username": "Username",
+          "password": "Password",
+          "serialnumber": "Serial Number"
+        },
+        "description": "Enter your Ecowater credentials.",
+        "title": "Authentication"
+      }
+    }
+  }
+}

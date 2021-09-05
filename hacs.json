@@ -1,0 +1,5 @@
+{
+  "name": "Ecowater Softener",
+  "render_readme": true,
+  "domains": ["sensor"]
+}

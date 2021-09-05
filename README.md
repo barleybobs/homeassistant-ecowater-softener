@@ -9,6 +9,7 @@ It will create one sensor with multiple attributes.
 ## Installation
 
 #### HACS
+Coming Soon
 
 #### Manually
 Copy the `custom_components/ecowater_softener` folder into the config folder.

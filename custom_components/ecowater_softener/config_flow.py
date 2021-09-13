@@ -16,6 +16,15 @@ from .const import DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 
+DATA_SCHEMA_USER = vol.Schema(
+    {
+        vol.Required("username"): str,
+        vol.Required("password"): str,
+        vol.Required("serialnumber"): str,
+        vol.Required("dateformat"): vol.In(['dd/mm/yyyy', 'mm/dd/yyyy'])
+    }
+)
+
 class EcowaterConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Ecowater config flow."""
 
@@ -29,5 +38,5 @@ class EcowaterConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             return self.async_create_entry(title="Ecowater " + self.data["serialnumber"], data=self.data)
 
         return self.async_show_form(
-            step_id="user", data_schema=vol.Schema({vol.Required("username"): str, vol.Required("password"): str, vol.Required("serialnumber"): str})
+            step_id="user", data_schema=DATA_SCHEMA_USER
         )

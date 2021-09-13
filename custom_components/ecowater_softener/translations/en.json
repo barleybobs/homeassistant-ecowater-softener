@@ -9,7 +9,7 @@
           "dateformat": "Date Format"
         },
         "description": "Enter your Ecowater credentials.",
-        "title": "Authentication"
+        "title": "Setup"
       }
     }
   }

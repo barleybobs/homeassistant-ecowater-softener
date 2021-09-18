@@ -41,7 +41,7 @@ from .const import (
 )
 
 _LOGGER = logging.getLogger(__name__)
-# Time between updating data from GitHub
+# Time between updating data from Ecowater
 SCAN_INTERVAL = timedelta(minutes=30)
 
 async def async_setup_entry(
@@ -58,13 +58,14 @@ async def async_setup_entry(
     username = config["username"]
     password = config["password"]
     serialnumber = config["serialnumber"]
-    sensors = [EcowaterSensor(username, password, serialnumber)]
+    dateformat = config["dateformat"]
+    sensors = [EcowaterSensor(username, password, serialnumber, dateformat)]
     async_add_entities(sensors, update_before_add=True)
 
 class EcowaterSensor(Entity):
     """Representation of a Ecowater water softener sensor."""
 
-    def __init__(self, username, password, serialnumber):
+    def __init__(self, username, password, serialnumber, dateformat):
         super().__init__()
         self._attrs: dict[str, Any] = {}
         self._icon = 'mdi:water'
@@ -73,6 +74,7 @@ class EcowaterSensor(Entity):
         self._username = username
         self._password = password
         self._serialnumber = serialnumber
+        self._dateformat = dateformat
         self._name = "Ecowater " + self._serialnumber
 
     @property
@@ -112,7 +114,18 @@ class EcowaterSensor(Entity):
 
             self._attrs[ATTR_STATUS] = 'Online' if data_json['online'] == True else 'Offline'
             self._attrs[ATTR_DAYS_UNTIL_OUT_OF_SALT] = data_json['out_of_salt_days']
-            self._attrs[ATTR_OUT_OF_SALT_ON] = datetime.strptime(data_json['out_of_salt'], '%d/%m/%Y').strftime('%Y-%m-%d')
+
+            """Runs correct datetime.strptime() depending on date format entered during setup."""
+            if self._dateformat == "dd/mm/yyyy":
+                self._attrs[ATTR_OUT_OF_SALT_ON] = datetime.strptime(data_json['out_of_salt'], '%d/%m/%Y').strftime('%Y-%m-%d')
+            elif self._dateformat == "mm/dd/yyyy":
+                self._attrs[ATTR_OUT_OF_SALT_ON] = datetime.strptime(data_json['out_of_salt'], '%m/%d/%Y').strftime('%Y-%m-%d')
+            else:
+                self._attrs[ATTR_OUT_OF_SALT_ON] = ''
+                _LOGGER.exception(
+                    f"Error: Date format not set"
+                )
+
             self._attrs[ATTR_SALT_LEVEL_PERCENTAGE] = data_json['salt_level_percent']
             self._attrs[ATTR_WATER_USAGE_TODAY] = data_json['water_today']
             self._attrs[ATTR_WATER_USAGE_DAILY_AVERAGE] = data_json['water_avg']

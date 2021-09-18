@@ -5,10 +5,11 @@
         "data": {
           "username": "Username",
           "password": "Password",
-          "serialnumber": "Serial Number"
+          "serialnumber": "Serial Number",
+          "dateformat": "Date Format"
         },
-        "description": "Enter your Ecowater credentials.",
-        "title": "Authentication"
+        "description": "Enter your Ecowater credentials.\nThen pick the date format that your Ecowater device uses.",
+        "title": "Setup"
       }
     }
   }

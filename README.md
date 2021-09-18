@@ -9,7 +9,6 @@ It will create one sensor with multiple attributes.
 ## Installation
 
 #### HACS
-Coming Soon
 
 #### Manually
 Copy the `custom_components/ecowater_softener` folder into the config folder.
@@ -20,6 +19,8 @@ To add an Ecowater water softener, go to Configuration > Integrations in the UI.
 ![Ecowater custom component setup dialog](setup.png)
 
 You then need to enter the information you use to login on [https://www.wifi.ecowater.com/Site/Login](https://www.wifi.ecowater.com/Site/Login).
+
+Then you will need to select the date format that your Ecowater device uses. You can check this under the `Out of Salt Date` and `Last Recharge` at [https://www.wifi.ecowater.com/Site/Login](https://www.wifi.ecowater.com/Site/Login).
 
 This will then create an entity `sensor.ecowater_serialnumberhere`. This sensor will update every 30 minutes.
 

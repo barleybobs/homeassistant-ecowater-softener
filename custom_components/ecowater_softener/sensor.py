@@ -115,16 +115,19 @@ class EcowaterSensor(Entity):
             self._attrs[ATTR_STATUS] = 'Online' if data_json['online'] == True else 'Offline'
             self._attrs[ATTR_DAYS_UNTIL_OUT_OF_SALT] = data_json['out_of_salt_days']
 
-            """Runs correct datetime.strptime() depending on date format entered during setup."""
-            if self._dateformat == "dd/mm/yyyy":
-                self._attrs[ATTR_OUT_OF_SALT_ON] = datetime.strptime(data_json['out_of_salt'], '%d/%m/%Y').strftime('%Y-%m-%d')
-            elif self._dateformat == "mm/dd/yyyy":
-                self._attrs[ATTR_OUT_OF_SALT_ON] = datetime.strptime(data_json['out_of_salt'], '%m/%d/%Y').strftime('%Y-%m-%d')
+            """Runs correct datetime.strptime() depending on date format entered during setup. Sets date to "Today" when necessary."""
+            if date_json['out_of_salt'] == 'Today':
+                self._attrs[ATTR_OUT_OF_SALT_ON] == 'Today'
             else:
-                self._attrs[ATTR_OUT_OF_SALT_ON] = ''
-                _LOGGER.exception(
-                    f"Error: Date format not set"
-                )
+                if self._dateformat == "dd/mm/yyyy":
+                    self._attrs[ATTR_OUT_OF_SALT_ON] = datetime.strptime(data_json['out_of_salt'], '%d/%m/%Y').strftime('%Y-%m-%d')
+                elif self._dateformat == "mm/dd/yyyy":
+                    self._attrs[ATTR_OUT_OF_SALT_ON] = datetime.strptime(data_json['out_of_salt'], '%m/%d/%Y').strftime('%Y-%m-%d')
+                else:
+                    self._attrs[ATTR_OUT_OF_SALT_ON] = ''
+                    _LOGGER.exception(
+                        f"Error: Date format not set"
+                    )
 
             self._attrs[ATTR_SALT_LEVEL_PERCENTAGE] = data_json['salt_level_percent']
             self._attrs[ATTR_WATER_USAGE_TODAY] = data_json['water_today']

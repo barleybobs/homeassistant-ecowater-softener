@@ -115,9 +115,11 @@ class EcowaterSensor(Entity):
             self._attrs[ATTR_STATUS] = 'Online' if data_json['online'] == True else 'Offline'
             self._attrs[ATTR_DAYS_UNTIL_OUT_OF_SALT] = data_json['out_of_salt_days']
 
-            """Runs correct datetime.strptime() depending on date format entered during setup. Sets date to "Today" when necessary."""
+            """Runs correct datetime.strptime() depending on date format entered during setup. Sets date to 'Today' or 'Tomorrow' when necessary."""
             if date_json['out_of_salt'] == 'Today':
-                self._attrs[ATTR_OUT_OF_SALT_ON] == 'Today'
+                self._attrs[ATTR_OUT_OF_SALT_ON] = 'Today'
+            elif date_json['out_of_salt'] == 'Tomorrow':
+                self._attrs[ATTR_OUT_OF_SALT_ON] = 'Tomorrow':
             else:
                 if self._dateformat == "dd/mm/yyyy":
                     self._attrs[ATTR_OUT_OF_SALT_ON] = datetime.strptime(data_json['out_of_salt'], '%d/%m/%Y').strftime('%Y-%m-%d')

@@ -102,7 +102,7 @@ class EcowaterSensor(Entity):
         return self._state
 
     @property
-    def device_state_attributes(self) -> Dict[str, Any]:
+    def extra_state_attributes(self) -> Dict[str, Any]:
         return self._attrs
 
     async def async_update(self):
@@ -115,7 +115,7 @@ class EcowaterSensor(Entity):
             self._attrs[ATTR_STATUS] = 'Online' if data_json['online'] == True else 'Offline'
             self._attrs[ATTR_DAYS_UNTIL_OUT_OF_SALT] = data_json['out_of_salt_days']
 
-            """Runs correct datetime.strptime() depending on date format entered during setup."""
+            #Runs correct datetime.strptime() depending on date format entered during setup.
             if self._dateformat == "dd/mm/yyyy":
                 self._attrs[ATTR_OUT_OF_SALT_ON] = datetime.strptime(data_json['out_of_salt'], '%d/%m/%Y').strftime('%Y-%m-%d')
             elif self._dateformat == "mm/dd/yyyy":

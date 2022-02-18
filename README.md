@@ -18,7 +18,7 @@ To add an Ecowater water softener, go to Configuration > Integrations in the UI.
 
 ![Ecowater custom component setup dialog](setup.png)
 
-You then need to enter the information you use to login on [https://www.wifi.ecowater.com/Site/Login](https://www.wifi.ecowater.com/Site/Login).
+You then need to enter the information you use to login on [https://www.wifi.ecowater.com/Site/Login](https://www.wifi.ecowater.com/Site/Login). (Serial Number = DSN)
 
 Then you will need to select the date format that your Ecowater device uses. You can check this under the `Out of Salt Date` and `Last Recharge` at [https://www.wifi.ecowater.com/Site/Login](https://www.wifi.ecowater.com/Site/Login).
 

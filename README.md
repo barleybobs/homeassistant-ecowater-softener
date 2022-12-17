@@ -7,13 +7,20 @@
 
 It will create one sensor with multiple attributes.
 
-![Homeassistant sensor more info dialog](attributes.png)
+![Home Assistant sensor more info dialog](attributes.png)
+
+And sensors based on those attributes to help make automations easier.
+
+![Home Assistant sensors example](entities.png)
 
 ## Installation
 
 #### HACS
 
+This integration is available in [HACS](https://hacs.xyz/). Search for `Ecowater Softener` and install it.
+
 #### Manually
+
 Copy the `custom_components/ecowater_softener` folder into the config folder.
 
 ## Configuration

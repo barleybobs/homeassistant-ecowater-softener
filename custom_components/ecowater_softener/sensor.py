@@ -9,16 +9,7 @@ from ecowater_softener import Ecowater
 from aiohttp import ClientError
 from homeassistant import config_entries, core
 from homeassistant.components.sensor import PLATFORM_SCHEMA
-from homeassistant.const import (
-    ATTR_NAME,
-    CONF_ACCESS_TOKEN,
-    CONF_NAME,
-    CONF_PATH,
-    CONF_URL,
-    UnitOfTime,
-    UnitOfVolume,
-    PERCENTAGE,
-)
+from homeassistant.const import ATTR_NAME, CONF_ACCESS_TOKEN, CONF_NAME, CONF_PATH, CONF_URL, VOLUME_GALLONS, VOLUME_LITERS, PERCENTAGE
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.entity import Entity
@@ -235,7 +226,7 @@ class SaltLevelPercentageSensor(EcowaterSensor):
     @property
     def icon(self):
         """Return the icon of the entity."""
-        return "sensor.salt_level_percentage"
+        return "mdi:water-percent"
 
     @property
     def state(self) -> Optional[str]:
@@ -278,10 +269,10 @@ class WaterUsedTodaySensor(EcowaterSensor):
     @property
     def unit_of_measurement(self) -> str:
         if self._attrs[ATTR_WATER_UNITS] == "Liters":
-            return UnitOfVolume.LITERS
+            return VOLUME_LITERS
 
         elif self._attrs[ATTR_WATER_UNITS] == "Gallons":
-            return UnitOfVolume.GALLONS
+            return VOLUME_GALLONS
 
         else:
             return "Unknown"
@@ -328,10 +319,10 @@ class WaterUsedDailyAverageSensor(EcowaterSensor):
     @property
     def unit_of_measurement(self) -> str:
         if self._attrs[ATTR_WATER_UNITS] == "Liters":
-            return UnitOfVolume.LITERS
+            return VOLUME_LITERS
 
         elif self._attrs[ATTR_WATER_UNITS] == "Gallons":
-            return UnitOfVolume.GALLONS
+            return VOLUME_GALLONS
 
         else:
             return "Unknown"
@@ -373,10 +364,10 @@ class WaterAvailableSensor(EcowaterSensor):
     @property
     def unit_of_measurement(self) -> str:
         if self._attrs[ATTR_WATER_UNITS] == "Liters":
-            return UnitOfVolume.LITERS
+            return VOLUME_LITERS
 
         elif self._attrs[ATTR_WATER_UNITS] == "Gallons":
-            return UnitOfVolume.GALLONS
+            return VOLUME_GALLONS
 
         else:
             return "Unknown"

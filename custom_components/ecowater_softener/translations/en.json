@@ -5,7 +5,7 @@
         "data": {
           "username": "Username",
           "password": "Password",
-          "serialnumber": "Serial Number",
+          "serialnumber": "Serial Number (DSN)",
           "dateformat": "Date Format"
         },
         "description": "Enter your Ecowater credentials.\nThen pick the date format that your Ecowater device uses.",

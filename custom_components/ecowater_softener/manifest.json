@@ -1,5 +1,5 @@
 {
-  "codeowners": ["@barleybobs"],
+  "codeowners": ["@barleybobs", "@ThePrincelle"],
   "config_flow": true,
   "dependencies": [],
   "documentation": "https://github.com/barleybobs/homeassistant-ecowater-softener/",

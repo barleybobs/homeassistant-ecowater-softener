@@ -63,7 +63,15 @@ async def async_setup_entry(
     password = config["password"]
     serialnumber = config["serialnumber"]
     dateformat = config["dateformat"]
-    sensors = [EcowaterSensor(username, password, serialnumber, dateformat)]
+    sensors = [
+        EcowaterSensor(username, password, serialnumber, dateformat),
+        DaysUntilOutOfSaltSensor(username, password, serialnumber, dateformat),
+        OutOfSaltOnSensor(username, password, serialnumber, dateformat),
+        SaltLevelPercentageSensor(username, password, serialnumber, dateformat),
+        WaterUsedTodaySensor(username, password, serialnumber, dateformat),
+        WaterUsedDailyAverageSensor(username, password, serialnumber, dateformat),
+        WaterAvailableSensor(username, password, serialnumber, dateformat)
+    ]
     async_add_entities(sensors, update_before_add=True)
 
 class EcowaterSensor(Entity):
@@ -252,12 +260,12 @@ class WaterUsedTodaySensor(EcowaterSensor):
         return "water"
     
 
-class WaterUsedDayAverageSensor(EcowaterSensor):
-    """Water Used by Day Average Sensor (number of units)"""
+class WaterUsedDailyAverageSensor(EcowaterSensor):
+    """Water Used Daily Average Sensor (number of units)"""
 
     def __init__(self, username, password, serialnumber, dateformat):
         super().__init__(username, password, serialnumber, dateformat)
-        self._name = "Water Used by Day Average"
+        self._name = "Water Used Daily Average"
 
     @property
     def name(self) -> str:

@@ -1,5 +1,8 @@
 # Ecowater water softeners integration for Home Assistant
 
+[![Validate with HACS](https://github.com/ThePrincelle/homeassistant-ecowater-softener/actions/workflows/validate-hacs.yml/badge.svg)](https://github.com/ThePrincelle/homeassistant-ecowater-softener/actions/workflows/validate-hacs.yml)
+[![Validate with hassfest](https://github.com/ThePrincelle/homeassistant-ecowater-softener/actions/workflows/validate-with-hassfest.yml/badge.svg)](https://github.com/ThePrincelle/homeassistant-ecowater-softener/actions/workflows/validate-with-hassfest.yml)
+
 `ecowater_softener` is a _custom component_ for [Home Assistant](https://www.home-assistant.io/). The integration allows you to pull data from your Ecowater water softener.
 
 It will create one sensor with multiple attributes.

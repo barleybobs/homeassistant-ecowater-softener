@@ -1,5 +1,5 @@
 """Ecowater sensor platform."""
-from datetime import datetime, timedelta
+from datetime import date, datetime, time, timedelta
 import logging
 import re
 from typing import Any, Callable, Dict, Optional
@@ -289,6 +289,11 @@ class WaterUsedTodaySensor(EcowaterSensor):
     @property
     def device_class(self) -> str:
         return "water"
+    
+    @property
+    def last_reset(self) -> Optional[datetime]:
+        # Everyday at midnight
+        return datetime.combine(date.today(), time.min)
 
     @property
     def extra_state_attributes(self) -> Dict[str, Any]:

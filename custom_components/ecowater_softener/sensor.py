@@ -15,6 +15,9 @@ from homeassistant.const import (
     CONF_NAME,
     CONF_PATH,
     CONF_URL,
+    UnitOfTime,
+    UnitOfVolume,
+    PERCENTAGE
 )
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 import homeassistant.helpers.config_validation as cv
@@ -37,6 +40,7 @@ from .const import (
     ATTR_WATER_UNITS,
     ATTR_RECHARGE_ENABLED,
     ATTR_RECHARGE_SCHEDULED,
+    ATTR_ALL_VALUES,
     DOMAIN,
 )
 
@@ -138,6 +142,7 @@ class EcowaterSensor(Entity):
             self._attrs[ATTR_WATER_UNITS] = str(data_json['water_units'])
             self._attrs[ATTR_RECHARGE_ENABLED] = data_json['rechargeEnabled']
             self._attrs[ATTR_RECHARGE_SCHEDULED] = False if ( re.search(nextRecharge_re, data_json['recharge']) ).group('nextRecharge') == 'Not Scheduled' else True
+            self._attrs[ATTR_ALL_VALUES] = data_json
             self._state = 'Online' if data_json['online'] == True else 'Offline'
             self._available = True
 
@@ -146,3 +151,166 @@ class EcowaterSensor(Entity):
             _LOGGER.exception(
                 f"Error: {e}"
             )
+
+
+class DaysUntilOutOfSaltSensor(EcowaterSensor):
+    """Days Until Out of Salt Sensor (number of days)"""
+
+    def __init__(self, username, password, serialnumber, dateformat):
+        super().__init__(username, password, serialnumber, dateformat)
+        self._name = "Days Until Out of Salt"
+
+    @property
+    def name(self) -> str:
+        """Return the name of the entity."""
+        return self._name
+
+    @property
+    def state(self) -> Optional[str]:
+        return self._attrs[ATTR_DAYS_UNTIL_OUT_OF_SALT]
+     
+    @property
+    def unit_of_measurement(self) -> str:
+        return UnitOfTime.DAYS
+    
+    @property
+    def device_class(self) -> str:
+        return "duration"
+
+class OutOfSaltOnSensor(EcowaterSensor):
+    """Out of Salt On Sensor (date)"""
+
+    def __init__(self, username, password, serialnumber, dateformat):
+        super().__init__(username, password, serialnumber, dateformat)
+        self._name = "Out of Salt On"
+
+    @property
+    def name(self) -> str:
+        """Return the name of the entity."""
+        return self._name
+
+    @property
+    def state(self) -> Optional[str]:
+        # Source (self._attrs[ATTR_OUT_OF_SALT_ON]) is "%Y-%m-%d", so convert to ISO 8601
+        return datetime.strptime(self._attrs[ATTR_OUT_OF_SALT_ON], '%Y-%m-%d').isoformat()
+
+    @property
+    def device_class(self) -> str:
+        return "date"
+
+
+class SaltLevelPercentageSensor(EcowaterSensor):
+    """Salt Level Percentage Sensor (percentage)"""
+
+    def __init__(self, username, password, serialnumber, dateformat):
+        super().__init__(username, password, serialnumber, dateformat)
+        self._name = "Salt Level Percentage"
+
+    @property
+    def name(self) -> str:
+        """Return the name of the entity."""
+        return self._name
+
+    @property
+    def state(self) -> Optional[str]:
+        return self._attrs[ATTR_SALT_LEVEL_PERCENTAGE]
+
+    @property
+    def unit_of_measurement(self) -> str:
+        return PERCENTAGE
+
+
+class WaterUsedTodaySensor(EcowaterSensor):
+    """Water Used Today Sensor (number of units)"""
+
+    def __init__(self, username, password, serialnumber, dateformat):
+        super().__init__(username, password, serialnumber, dateformat)
+        self._name = "Water Used Today"
+
+    @property
+    def name(self) -> str:
+        """Return the name of the entity."""
+        return self._name
+
+    @property
+    def state(self) -> Optional[str]:
+        return self._attrs[ATTR_WATER_USAGE_TODAY]
+
+    @property
+    def unit_of_measurement(self) -> str:
+        if self._attrs[ATTR_WATER_UNITS] == 'Liters':
+            return UnitOfVolume.LITERS
+        
+        elif self._attrs[ATTR_WATER_UNITS] == 'Gallons':
+            return UnitOfVolume.GALLONS
+        
+        else:
+            return "Unknown"
+        
+    @property
+    def device_class(self) -> str:
+        return "water"
+    
+
+class WaterUsedDayAverageSensor(EcowaterSensor):
+    """Water Used by Day Average Sensor (number of units)"""
+
+    def __init__(self, username, password, serialnumber, dateformat):
+        super().__init__(username, password, serialnumber, dateformat)
+        self._name = "Water Used by Day Average"
+
+    @property
+    def name(self) -> str:
+        """Return the name of the entity."""
+        return self._name
+
+    @property
+    def state(self) -> Optional[str]:
+        return self._attrs[ATTR_WATER_USAGE_DAILY_AVERAGE]
+
+    @property
+    def unit_of_measurement(self) -> str:
+        if self._attrs[ATTR_WATER_UNITS] == 'Liters':
+            return UnitOfVolume.LITERS
+        
+        elif self._attrs[ATTR_WATER_UNITS] == 'Gallons':
+            return UnitOfVolume.GALLONS
+        
+        else:
+            return "Unknown"
+        
+    @property
+    def device_class(self) -> str:
+        return "volume"
+
+
+class WaterAvailableSensor(EcowaterSensor):
+    """Water Available Sensor (number of units)"""
+
+    def __init__(self, username, password, serialnumber, dateformat):
+        super().__init__(username, password, serialnumber, dateformat)
+        self._name = "Water Available"
+
+    @property
+    def name(self) -> str:
+        """Return the name of the entity."""
+        return self._name
+
+    @property
+    def state(self) -> Optional[str]:
+        return self._attrs[ATTR_WATER_AVAILABLE]
+
+    @property
+    def unit_of_measurement(self) -> str:
+        if self._attrs[ATTR_WATER_UNITS] == 'Liters':
+            return UnitOfVolume.LITERS
+        
+        elif self._attrs[ATTR_WATER_UNITS] == 'Gallons':
+            return UnitOfVolume.GALLONS
+        
+        else:
+            return "Unknown"
+        
+    @property
+    def device_class(self) -> str:
+        return "volume"

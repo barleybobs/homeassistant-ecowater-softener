@@ -38,5 +38,9 @@ This device will then have the entities show below.
 
 ![Entities](images/sensors.png)
 
+## Credits
+- @ThePrincelle - French Translations
+- @kylejohnson - Discovering and documenting the Ecowater API
+
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)

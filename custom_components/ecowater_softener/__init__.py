@@ -1,4 +1,4 @@
-"""Ecowater Component."""
+"""Ecowater Component"""
 import asyncio
 import logging
 

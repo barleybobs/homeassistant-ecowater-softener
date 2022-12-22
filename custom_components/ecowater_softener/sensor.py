@@ -1,148 +1,159 @@
-"""Ecowater sensor platform."""
-from datetime import datetime, timedelta
-import logging
-import re
-from typing import Any, Callable, Dict, Optional
+from collections.abc import Callable
+from dataclasses import dataclass
 
-from ecowater_softener import Ecowater
-
-from aiohttp import ClientError
-from homeassistant import config_entries, core
-from homeassistant.components.sensor import PLATFORM_SCHEMA
+from homeassistant.helpers.entity import DeviceInfo
+from homeassistant.components.sensor import (
+    SensorDeviceClass,
+    SensorEntity,
+    SensorEntityDescription,
+    SensorStateClass,
+)
+from homeassistant import config_entries
+from homeassistant.core import HomeAssistant, callback
+from homeassistant.helpers.entity_platform import AddEntitiesCallback
+from homeassistant.helpers.typing import StateType
+from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.const import (
-    ATTR_NAME,
-    CONF_ACCESS_TOKEN,
-    CONF_NAME,
-    CONF_PATH,
-    CONF_URL,
+    VOLUME_LITERS,
+    VOLUME_GALLONS,
+    TIME_DAYS,
+    PERCENTAGE,
 )
-from homeassistant.helpers.aiohttp_client import async_get_clientsession
-import homeassistant.helpers.config_validation as cv
-from homeassistant.helpers.entity import Entity
-from homeassistant.helpers.typing import (
-    ConfigType,
-    DiscoveryInfoType,
-    HomeAssistantType,
-)
-import voluptuous as vol
 
 from .const import (
-    ATTR_STATUS,
-    ATTR_DAYS_UNTIL_OUT_OF_SALT,
-    ATTR_OUT_OF_SALT_ON,
-    ATTR_SALT_LEVEL_PERCENTAGE,
-    ATTR_WATER_USAGE_TODAY,
-    ATTR_WATER_USAGE_DAILY_AVERAGE,
-    ATTR_WATER_AVAILABLE,
-    ATTR_WATER_UNITS,
-    ATTR_RECHARGE_ENABLED,
-    ATTR_RECHARGE_SCHEDULED,
     DOMAIN,
+    STATUS,
+    DAYS_UNTIL_OUT_OF_SALT,
+    OUT_OF_SALT_ON,
+    SALT_LEVEL_PERCENTAGE,
+    WATER_USAGE_TODAY,
+    WATER_USAGE_DAILY_AVERAGE,
+    WATER_AVAILABLE,
+    RECHARGE_ENABLED,
+    RECHARGE_SCHEDULED,
 )
 
-_LOGGER = logging.getLogger(__name__)
-# Time between updating data from Ecowater
-SCAN_INTERVAL = timedelta(minutes=30)
+
+from .coordinator import EcowaterDataCoordinator
+
+@dataclass
+class EcowaterSensorEntityDescription(SensorEntityDescription):
+        """A class that describes sensor entities"""
+
+SENSOR_TYPES: tuple[EcowaterSensorEntityDescription, ...] = (
+    EcowaterSensorEntityDescription(
+        key=STATUS,
+        name="Status",
+        icon="mdi:power",
+    ),
+    EcowaterSensorEntityDescription(
+        key=WATER_AVAILABLE,
+        name="Water Available",
+        icon="mdi:water",
+        device_class=SensorDeviceClass.WATER,
+        state_class=SensorStateClass.MEASUREMENT,
+    ),
+    EcowaterSensorEntityDescription(
+        key=WATER_USAGE_TODAY,
+        name="Water Used Today",
+        icon="mdi:water",
+        device_class=SensorDeviceClass.WATER,
+        state_class=SensorStateClass.TOTAL_INCREASING,
+    ),
+    EcowaterSensorEntityDescription(
+        key=WATER_USAGE_DAILY_AVERAGE,
+        name="Water Used Per Day Average",
+        icon="mdi:water",
+    ),
+    EcowaterSensorEntityDescription(
+        key=SALT_LEVEL_PERCENTAGE,
+        name="Salt Level Percentage",
+        icon="mdi:altimeter",
+        native_unit_of_measurement=PERCENTAGE,
+    ),
+    EcowaterSensorEntityDescription(
+        key=OUT_OF_SALT_ON,
+        name="Out of salt on",
+        icon="mdi:calendar",
+    ),
+    EcowaterSensorEntityDescription(
+        key=DAYS_UNTIL_OUT_OF_SALT,
+        name="Days until out of salt",
+        icon="mdi:calendar",
+        native_unit_of_measurement=TIME_DAYS,
+    ),
+    EcowaterSensorEntityDescription(
+        key=RECHARGE_ENABLED,
+        name="Recharged enabled",
+    ),
+    EcowaterSensorEntityDescription(
+        key=RECHARGE_SCHEDULED,
+        name="Recharged scheduled",
+    ),
+)
 
 async def async_setup_entry(
-    hass: core.HomeAssistant,
+    hass: HomeAssistant,
     config_entry: config_entries.ConfigEntry,
-    async_add_entities,
-):
-    """Setup sensors from a config entry created in the integrations UI."""
+    async_add_entities: AddEntitiesCallback,
+) -> None:
+    """Set up the ecowater sensor."""
     config = hass.data[DOMAIN][config_entry.entry_id]
-    # Update our config to include new repos and remove those that have been removed.
     if config_entry.options:
         config.update(config_entry.options)
-    session = async_get_clientsession(hass)
-    username = config["username"]
-    password = config["password"]
-    serialnumber = config["serialnumber"]
-    dateformat = config["dateformat"]
-    sensors = [EcowaterSensor(username, password, serialnumber, dateformat)]
-    async_add_entities(sensors, update_before_add=True)
 
-class EcowaterSensor(Entity):
-    """Representation of a Ecowater water softener sensor."""
+    coordinator = EcowaterDataCoordinator(hass, config['username'], config['password'], config['serialnumber'], config['dateformat']) 
 
-    def __init__(self, username, password, serialnumber, dateformat):
-        super().__init__()
-        self._attrs: dict[str, Any] = {}
-        self._icon = 'mdi:water'
-        self._state = None
-        self._available = True
-        self._username = username
-        self._password = password
+    await coordinator.async_config_entry_first_refresh()
+
+    async_add_entities(
+        EcowaterSensor(coordinator, description, config['serialnumber'])
+        for description in SENSOR_TYPES
+    )
+
+class EcowaterSensor(
+    CoordinatorEntity[EcowaterDataCoordinator],
+    SensorEntity,
+):
+    """Implementation of an ecowater sensor."""
+
+    _attr_has_entity_name = True
+    entity_description: EcowaterSensorEntityDescription
+
+    def __init__(
+        self,
+        coordinator: EcowaterDataCoordinator,
+        description: EcowaterSensorEntityDescription,
+        serialnumber,
+    ) -> None:
+        """Initialize the ecowater sensor."""
+        super().__init__(coordinator)
+        self.entity_description = description
+        self._attr_unique_id = "ecowater_" + serialnumber.lower() + "_" + self.entity_description.key
+        self._attr_native_value = coordinator.data[self.entity_description.key]
         self._serialnumber = serialnumber
-        self._dateformat = dateformat
-        self._name = "Ecowater " + self._serialnumber
 
     @property
-    def name(self) -> str:
-        """Return the name of the entity."""
-        return self._name
+    def native_unit_of_measurement(self) -> StateType:
+        if self.entity_description.key.startswith('water'):
+            if self.coordinator.data['water_units'].lower() == 'liters':
+                return VOLUME_LITERS
+            elif self.coordinator.data['water_units'].lower() == 'gallons':
+                return VOLUME_GALLONS
+        elif self.entity_description.native_unit_of_measurement != None:
+            return self.entity_description.native_unit_of_measurement
+
+    @callback
+    def _handle_coordinator_update(self) -> None:
+        """Handle updated data from the coordinator."""
+        self._attr_native_value = self.coordinator.data[self.entity_description.key]
+        self.async_write_ha_state()
 
     @property
-    def icon(self):
-        """Return the icon of the entity."""
-        return self._icon
-
-    @property
-    def unique_id(self) -> str:
-        """Return the unique ID of the sensor."""
-        return "Ecowater-" + self._serialnumber
-
-    @property
-    def available(self) -> bool:
-        """Return True if entity is available."""
-        return self._available
-
-    @property
-    def state(self) -> Optional[str]:
-        return self._state
-
-    @property
-    def extra_state_attributes(self) -> Dict[str, Any]:
-        return self._attrs
-
-    async def async_update(self):
-        try:
-            ecowaterDevice = Ecowater(self._username, self._password, self._serialnumber)
-            data_json = await self.hass.async_add_executor_job(lambda: ecowaterDevice._get())
-
-            nextRecharge_re = "device-info-nextRecharge'\)\.html\('(?P<nextRecharge>.*)'"
-
-            self._attrs[ATTR_STATUS] = 'Online' if data_json['online'] == True else 'Offline'
-            self._attrs[ATTR_DAYS_UNTIL_OUT_OF_SALT] = data_json['out_of_salt_days']
-
-            # Checks if date is 'today' or 'tomorrow'
-            if str(data_json['out_of_salt']).lower() == 'today':
-                self._attrs[ATTR_OUT_OF_SALT_ON] = datetime.today().strftime('%Y-%m-%d')
-            elif str(data_json['out_of_salt']).lower() == 'tomorrow':
-                self._attrs[ATTR_OUT_OF_SALT_ON] = (datetime.today() + datetime.timedelta(days=1)).strftime('%Y-%m-%d')
-            # Runs correct datetime.strptime() depending on date format entered during setup.
-            elif self._dateformat == "dd/mm/yyyy":
-                self._attrs[ATTR_OUT_OF_SALT_ON] = datetime.strptime(data_json['out_of_salt'], '%d/%m/%Y').strftime('%Y-%m-%d')
-            elif self._dateformat == "mm/dd/yyyy":
-                self._attrs[ATTR_OUT_OF_SALT_ON] = datetime.strptime(data_json['out_of_salt'], '%m/%d/%Y').strftime('%Y-%m-%d')
-            else:
-                self._attrs[ATTR_OUT_OF_SALT_ON] = ''
-                _LOGGER.exception(
-                    f"Error: Date format not set"
-                )
-
-            self._attrs[ATTR_SALT_LEVEL_PERCENTAGE] = data_json['salt_level_percent']
-            self._attrs[ATTR_WATER_USAGE_TODAY] = data_json['water_today']
-            self._attrs[ATTR_WATER_USAGE_DAILY_AVERAGE] = data_json['water_avg']
-            self._attrs[ATTR_WATER_AVAILABLE] = data_json['water_avail']
-            self._attrs[ATTR_WATER_UNITS] = str(data_json['water_units'])
-            self._attrs[ATTR_RECHARGE_ENABLED] = data_json['rechargeEnabled']
-            self._attrs[ATTR_RECHARGE_SCHEDULED] = False if ( re.search(nextRecharge_re, data_json['recharge']) ).group('nextRecharge') == 'Not Scheduled' else True
-            self._state = 'Online' if data_json['online'] == True else 'Offline'
-            self._available = True
-
-        except Exception as e:
-            self._available = False
-            _LOGGER.exception(
-                f"Error: {e}"
-            )
+    def device_info(self) -> DeviceInfo:
+        """Return the device info."""
+        return DeviceInfo(
+            identifiers={(DOMAIN, self._serialnumber)},
+            name="Ecowater " + self._serialnumber,
+            manufacturer="Ecowater",
+        )

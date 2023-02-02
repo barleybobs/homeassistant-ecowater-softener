@@ -50,8 +50,6 @@ SENSOR_TYPES: tuple[EcowaterSensorEntityDescription, ...] = (
         key=WATER_AVAILABLE,
         name="Water Available",
         icon="mdi:water",
-        device_class=SensorDeviceClass.WATER,
-        state_class=SensorStateClass.MEASUREMENT,
     ),
     EcowaterSensorEntityDescription(
         key=WATER_USAGE_TODAY,

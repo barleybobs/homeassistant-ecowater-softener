@@ -1,0 +1,16 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "data": {
+          "username": "Benutzername",
+          "password": "Passwort",
+          "serialnumber": "Seriennummer",
+          "dateformat": "Datumformat"
+        },
+        "description": "Gebe deine Ecowater-Anmeldedaten ein.\n Wähle dann das Datumsformat, das dein Ecowater-Gerät verwendet.",
+        "title": "Einrichtung"
+      }
+    }
+  }
+}

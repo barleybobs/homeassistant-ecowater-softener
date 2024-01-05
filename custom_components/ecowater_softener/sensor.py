@@ -14,9 +14,8 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.typing import StateType
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.const import (
-    VOLUME_LITERS,
-    VOLUME_GALLONS,
-    TIME_DAYS,
+    UnitOfVolume,
+    UnitOfTime,
     PERCENTAGE,
 )
 
@@ -80,7 +79,7 @@ SENSOR_TYPES: tuple[EcowaterSensorEntityDescription, ...] = (
         key=DAYS_UNTIL_OUT_OF_SALT,
         name="Days until out of salt",
         icon="mdi:calendar",
-        native_unit_of_measurement=TIME_DAYS,
+        native_unit_of_measurement=UnitOfTime.DAYS,
     ),
     EcowaterSensorEntityDescription(
         key=RECHARGE_ENABLED,
@@ -137,9 +136,9 @@ class EcowaterSensor(
     def native_unit_of_measurement(self) -> StateType:
         if self.entity_description.key.startswith('water'):
             if self.coordinator.data['water_units'].lower() == 'liters':
-                return VOLUME_LITERS
+                return UnitOfVolume.LITERS
             elif self.coordinator.data['water_units'].lower() == 'gallons':
-                return VOLUME_GALLONS
+                return UnitOfVolume.GALLONS
         elif self.entity_description.native_unit_of_measurement != None:
             return self.entity_description.native_unit_of_measurement
 

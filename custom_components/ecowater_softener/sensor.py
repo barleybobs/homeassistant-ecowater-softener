@@ -13,11 +13,11 @@ from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.typing import StateType
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
+
 from homeassistant.const import (
-    VOLUME_LITERS,
-    VOLUME_GALLONS,
-    TIME_DAYS,
     PERCENTAGE,
+    UnitOfTime,
+    UnitOfVolume
 )
 
 from .const import (
@@ -31,6 +31,7 @@ from .const import (
     WATER_AVAILABLE,
     RECHARGE_ENABLED,
     RECHARGE_SCHEDULED,
+    WATER_FLOW
 )
 
 
@@ -80,7 +81,7 @@ SENSOR_TYPES: tuple[EcowaterSensorEntityDescription, ...] = (
         key=DAYS_UNTIL_OUT_OF_SALT,
         name="Days until out of salt",
         icon="mdi:calendar",
-        native_unit_of_measurement=TIME_DAYS,
+        native_unit_of_measurement=UnitOfTime.DAYS,
     ),
     EcowaterSensorEntityDescription(
         key=RECHARGE_ENABLED,
@@ -89,6 +90,11 @@ SENSOR_TYPES: tuple[EcowaterSensorEntityDescription, ...] = (
     EcowaterSensorEntityDescription(
         key=RECHARGE_SCHEDULED,
         name="Recharged scheduled",
+    ),
+    EcowaterSensorEntityDescription(
+        key=WATER_FLOW,
+        name="Water Flow (from API)",
+        icon="mdi:water",
     ),
 )
 
@@ -102,7 +108,7 @@ async def async_setup_entry(
     if config_entry.options:
         config.update(config_entry.options)
 
-    coordinator = EcowaterDataCoordinator(hass, config['username'], config['password'], config['serialnumber'], config['dateformat']) 
+    coordinator = EcowaterDataCoordinator(hass, config['username'], config['password'], config['serialnumber'], config['dateformat'], config['usessalt']) 
 
     await coordinator.async_config_entry_first_refresh()
 
@@ -137,9 +143,9 @@ class EcowaterSensor(
     def native_unit_of_measurement(self) -> StateType:
         if self.entity_description.key.startswith('water'):
             if self.coordinator.data['water_units'].lower() == 'liters':
-                return VOLUME_LITERS
+                return UnitOfVolume.LITERS
             elif self.coordinator.data['water_units'].lower() == 'gallons':
-                return VOLUME_GALLONS
+                return UnitOfVolume.GALLONS
         elif self.entity_description.native_unit_of_measurement != None:
             return self.entity_description.native_unit_of_measurement
 

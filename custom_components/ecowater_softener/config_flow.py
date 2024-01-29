@@ -14,7 +14,8 @@ DATA_SCHEMA_USER = vol.Schema(
         vol.Required("username"): str,
         vol.Required("password"): str,
         vol.Required("serialnumber"): str,
-        vol.Required("dateformat"): vol.In(['dd/mm/yyyy', 'mm/dd/yyyy'])
+        vol.Required("dateformat"): vol.In(['dd/mm/yyyy', 'mm/dd/yyyy']),
+        vol.Required("usessalt", default=True, description='Uses Salt'): bool
     }
 )
 

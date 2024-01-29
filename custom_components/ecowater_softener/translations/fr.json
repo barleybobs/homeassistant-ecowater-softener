@@ -6,7 +6,8 @@
           "username": "Nom d'utilisateur",
           "password": "Mot de passe",
           "serialnumber": "Numéro de série (DSN)",
-          "dateformat": "Format Date"
+          "dateformat": "Format Date",
+          "usessalt": "Utiliser du Sel"
         },
         "description": "Entez les information de connexion de votre compte Ecowater.\nEt entrez le format de date que vous avez configuré sur votre compte.",
         "title": "Lier votre compte Ecowater"

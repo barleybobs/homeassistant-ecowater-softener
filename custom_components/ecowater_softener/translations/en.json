@@ -6,7 +6,8 @@
           "username": "Username",
           "password": "Password",
           "serialnumber": "Serial Number",
-          "dateformat": "Date Format"
+          "dateformat": "Date Format",
+          "usessalt": "Uses Salt"
         },
         "description": "Enter your Ecowater credentials.\nThen pick the date format that your Ecowater device uses.",
         "title": "Setup"

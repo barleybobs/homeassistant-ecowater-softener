@@ -45,7 +45,8 @@ This device will then have the entities show below.
 - [@Quotic](https://github.com/Quotic) - German Translations
 - [@figorr](https://github.com/figorr) - Updated deprecated constants
 - [@kylejohnson](https://github.com/kylejohnson) - Discovering and documenting the Ecowater API
-- [@mattjgalloway](https://github.com/mattjgalloway) - Sorting manifest.json ordering 
+- [@mattjgalloway](https://github.com/mattjgalloway) - Sorting manifest.json ordering
+- [@Tazmanian79](https://github.com/Tazmanian79) - Updating state class from measurement to total
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)

@@ -42,7 +42,10 @@ This device will then have the entities show below.
 
 ## Credits
 - [@ThePrincelle](https://github.com/ThePrincelle) - French Translations
+- [@Quotic](https://github.com/Quotic) - German Translations
+- [@figorr](https://github.com/figorr) - Updated deprecated constants
 - [@kylejohnson](https://github.com/kylejohnson) - Discovering and documenting the Ecowater API
+- [@mattjgalloway](https://github.com/mattjgalloway) - Sorting manifest.json ordering 
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)

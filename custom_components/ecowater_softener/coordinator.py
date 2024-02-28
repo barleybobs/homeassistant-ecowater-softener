@@ -58,7 +58,9 @@ class EcowaterDataCoordinator(DataUpdateCoordinator):
             if str(data_json['out_of_salt']).lower() == 'today':
                 data[OUT_OF_SALT_ON] = datetime.today().strftime('%Y-%m-%d')
             elif str(data_json['out_of_salt']).lower() == 'tomorrow':
-                data[OUT_OF_SALT_ON] = (datetime.today() + datetime.timedelta(days=1)).strftime('%Y-%m-%d')
+                data[OUT_OF_SALT_ON] = (datetime.today() + timedelta(days=1)).strftime('%Y-%m-%d')
+            elif str(data_json['out_of_salt']).lower() == 'yesterday':
+                data[OUT_OF_SALT_ON] = (datetime.today() - timedelta(days=1)).strftime('%Y-%m-%d')
             # Runs correct datetime.strptime() depending on date format entered during setup.
             elif self._dateformat == "dd/mm/yyyy":
                 data[OUT_OF_SALT_ON] = datetime.strptime(data_json['out_of_salt'], '%d/%m/%Y').strftime('%Y-%m-%d')

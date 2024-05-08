@@ -61,7 +61,7 @@ SENSOR_TYPES: tuple[EcowaterSensorEntityDescription, ...] = (
     ),
     EcowaterSensorEntityDescription(
         key=WATER_USAGE_DAILY_AVERAGE,
-        name="Water Used Per Day Average",
+        name="Average Water Used per Day",
         icon="mdi:water",
     ),
     EcowaterSensorEntityDescription(
@@ -72,22 +72,22 @@ SENSOR_TYPES: tuple[EcowaterSensorEntityDescription, ...] = (
     ),
     EcowaterSensorEntityDescription(
         key=OUT_OF_SALT_ON,
-        name="Out of salt on",
+        name="Out of Salt On",
         icon="mdi:calendar",
     ),
     EcowaterSensorEntityDescription(
         key=DAYS_UNTIL_OUT_OF_SALT,
-        name="Days until out of salt",
+        name="Days Until Out of Salt",
         icon="mdi:calendar",
         native_unit_of_measurement=UnitOfTime.DAYS,
     ),
     EcowaterSensorEntityDescription(
         key=RECHARGE_ENABLED,
-        name="Recharged enabled",
+        name="Recharge Enabled",
     ),
     EcowaterSensorEntityDescription(
         key=RECHARGE_SCHEDULED,
-        name="Recharged scheduled",
+        name="Recharge Scheduled",
     ),
 )
 

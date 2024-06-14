@@ -51,7 +51,7 @@ class EcowaterDataCoordinator(DataUpdateCoordinator):
             ecowaterDevice = Ecowater(self._username, self._password, self._serialnumber)
             data_json = await self.hass.async_add_executor_job(lambda: ecowaterDevice._get())
 
-            nextRecharge_re = "device-info-nextRecharge'\)\.html\('(?P<nextRecharge>.*)'"
+            nextRecharge_re = r"device-info-nextRecharge'\)\.html\('(?P<nextRecharge>.*)'"
 
             data[STATUS] = 'Online' if data_json['online'] == True else 'Offline'
             data[DAYS_UNTIL_OUT_OF_SALT] = data_json['out_of_salt_days']

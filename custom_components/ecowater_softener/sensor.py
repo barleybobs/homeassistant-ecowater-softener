@@ -30,6 +30,7 @@ from .const import (
     WATER_AVAILABLE,
     RECHARGE_ENABLED,
     RECHARGE_SCHEDULED,
+    LAST_UPDATE,
 )
 
 
@@ -88,6 +89,11 @@ SENSOR_TYPES: tuple[EcowaterSensorEntityDescription, ...] = (
     EcowaterSensorEntityDescription(
         key=RECHARGE_SCHEDULED,
         name="Recharged scheduled",
+    ),
+    EcowaterSensorEntityDescription(
+        key=LAST_UPDATE,
+        name="Last update",
+        icon="mdi:update",
     ),
 )
 

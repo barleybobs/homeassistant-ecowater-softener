@@ -65,7 +65,7 @@ class EcowaterDataCoordinator(DataUpdateCoordinator):
                 data[OUT_OF_SALT_ON] = (datetime.today() - timedelta(days=1)).strftime('%Y-%m-%d')
             # Runs correct datetime.strptime() depending on date format entered during setup.
             elif self._dateformat == "dd/mm/yyyy":
-                data[OUT_OF_SALT_ON] = datetime.strptime(data_json['out_of_salt'], '%d/%m/%Y').strftime('%Y-%m-%d')
+                data[OUT_OF_SALT_ON] = datetime.strptime(data_json['out_of_salt'], '%d/%m/%Y').strftime('%d-%m-%Y')
             elif self._dateformat == "mm/dd/yyyy":
                 data[OUT_OF_SALT_ON] = datetime.strptime(data_json['out_of_salt'], '%m/%d/%Y').strftime('%Y-%m-%d')
             else:
@@ -85,11 +85,11 @@ class EcowaterDataCoordinator(DataUpdateCoordinator):
             # Update the last time when data is received from the API, according to date format.
             now = datetime.now()
             if self._dateformat == "dd/mm/yyyy":
-                self._last_update = now.strftime('%d/%m/%Y - %H:%M')
+                self._last_update = now.strftime('%d-%m-%Y - %H:%M')
             elif self._dateformat == "mm/dd/yyyy":
-                self._last_update = now.strftime('%m/%d/%Y - %H:%M')
+                self._last_update = now.strftime('%m-%d-%Y - %H:%M')
             else:
-                self._last_update = now.strftime('%d/%m/%Y - %H:%M')
+                self._last_update = now.strftime('%d-%m-%Y - %H:%M')
                 _LOGGER.exception(
                     f"Error: Date format not set for last update"
                 )

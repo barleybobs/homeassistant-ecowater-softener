@@ -82,19 +82,23 @@ class EcowaterDataCoordinator(DataUpdateCoordinator):
             data[RECHARGE_ENABLED] = data_json['rechargeEnabled']
             data[RECHARGE_SCHEDULED] = False if ( re.search(nextRecharge_re, data_json['recharge']) ).group('nextRecharge') == 'Not Scheduled' else True
             
-            # Update the last time when data is received from the API, according to date format.
-            now = datetime.now()
-            if self._dateformat == "dd/mm/yyyy":
-                self._last_update = now.strftime('%d-%m-%Y - %H:%M')
-            elif self._dateformat == "mm/dd/yyyy":
-                self._last_update = now.strftime('%m-%d-%Y - %H:%M')
-            else:
-                self._last_update = now.strftime('%d-%m-%Y - %H:%M')
-                _LOGGER.exception(
-                    f"Error: Date format not set for last update"
-                )
+            # Update the last time when data is received from the API and the softener is 'Online', according to date format.
+            if data[STATUS] == 'Online':
+                now = datetime.now()
+                if self._dateformat == "dd/mm/yyyy":
+                    self._last_update = now.strftime('%d-%m-%Y - %H:%M')
+                elif self._dateformat == "mm/dd/yyyy":
+                    self._last_update = now.strftime('%m-%d-%Y - %H:%M')
+                else:
+                    self._last_update = now.strftime('%d-%m-%Y - %H:%M')
+                    _LOGGER.exception(
+                        f"Error: Date format not set for last update"
+                    )
 
-            data[LAST_UPDATE] = self._last_update
+                data[LAST_UPDATE] = self._last_update
+            else:
+                if self._last_update:
+                    data[LAST_UPDATE] = self._last_update
             
             return data
         except Exception as e:

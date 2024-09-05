@@ -31,7 +31,7 @@ class EcowaterDataCoordinator(DataUpdateCoordinator):
             hass,
             _LOGGER,
             name="Ecowater " + serialnumber,
-            update_interval=timedelta(minutes=10),
+            update_interval=timedelta(minutes=30),
         )
         self._username = username
         self._password = password

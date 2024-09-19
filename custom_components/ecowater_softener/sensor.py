@@ -92,7 +92,7 @@ SENSOR_TYPES: tuple[EcowaterSensorEntityDescription, ...] = (
     ),
     EcowaterSensorEntityDescription(
         key=LAST_UPDATE,
-        name="Last update",
+        name="Last Update",
         icon="mdi:update",
     ),
 )

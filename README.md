@@ -17,6 +17,8 @@
 Version 3.4.2
 - Added "Last Update" sensor to show date and time from the last connection to API with "Online" Status.
 - Added Spanish Translation.
+- Some minor changes. OUT OF SALT ON ... now gives the data d/m/Y instead Y/m/d when date format at setup is dd/mm/yyyy
+- Update Readme file to show the current version and changelog.
 
 Version 3.4.1
 - Fixed invalid regex warning - Updated regex by @figorr
@@ -24,10 +26,6 @@ Version 3.4.1
 Version 3.4.0
 - Updated to using await async_forward_entry_setups - by @figorr
 - Grammar fixes - by @heytcass
-
-Version 3.3.1
-- Some minor changes. OUT OF SALT ON ... now gives the data d/m/Y instead Y/m/d when date format at setup is dd/mm/yyyy
-- Update Readme file to show the current version and changelog.
 
 ## Installation
 

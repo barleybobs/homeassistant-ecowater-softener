@@ -11,9 +11,16 @@
 
 `ecowater_softener` is a _custom component_ for [Home Assistant](https://www.home-assistant.io/). The integration allows you to pull data from your Ecowater water softener.
 
-## Current version: v3.3.1
+## Current version: v3.4.1
 
 ## Changelog
+Version 3.4.1
+- Fixed invalid regex warning - Updated regex by @figorr
+
+Version 3.4.0
+- Updated to using await async_forward_entry_setups - by @figorr
+- Grammar fixes - by @heytcass
+
 Version 3.3.1
 - New "last update" sensor: It retrieves the data and time the integration connects to the Ecowater server.
 - Some minor changes. OUT OF SALT ON ... now gives the data d/m/Y instead Y/m/d when date format at setup is dd/mm/yyyy
@@ -49,12 +56,13 @@ This device will then have the entities show below.
 ![Entities](images/sensors.png)
 
 ## Credits
-- [@ThePrincelle](https://github.com/ThePrincelle) - French Translations
-- [@Quotic](https://github.com/Quotic) - German Translations
-- [@figorr](https://github.com/figorr) - Updated deprecated constants
-- [@kylejohnson](https://github.com/kylejohnson) - Discovering and documenting the Ecowater API
-- [@mattjgalloway](https://github.com/mattjgalloway) - Sorting manifest.json ordering
-- [@Tazmanian79](https://github.com/Tazmanian79) - Updating state class from measurement to total
+- @ThePrincelle - French Translations
+- @Quotic - German Translations
+- @figorr - Updated deprecated constants & Updated to using await async_forward_entry_setups & Updated regex
+- @kylejohnson - Discovering and documenting the Ecowater API
+- @mattjgalloway - Sorting manifest.json ordering
+- @Tazmanian79 - Updating state class from measurement to total
+- @heytcass - Grammar fixes
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)

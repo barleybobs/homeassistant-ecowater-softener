@@ -5,6 +5,8 @@
 # **V3.0.0 BREAKING CHANGES**
 **In version 3.0.0 the original sensor is discontinued. There are now individual entities for each piece of data. These new sensor also update every 10 minutes compared to the old sensor which updated every 30 minutes.**
 
+**Note: Sept. 2024. Due to new limit of the api calls set by Ecowater, in order to avoid the blocking of the integration and the mobile app, that will show status as "Online" but it won't update the data until you powercycle the Ecowater Softener, the time between scans was set again to 30 minutes.**
+
 **Before installing version 3.0.0 remove the integration from the "Device and Services" menu. Then install version 3.0.0 and restart before finally setting up the integration again.**
 
 # Ecowater water softeners integration for Home Assistant
@@ -19,6 +21,7 @@ Version 3.4.2
 - Added Spanish Translation.
 - Some minor changes. OUT OF SALT ON ... now gives the data d/m/Y instead Y/m/d when date format at setup is dd/mm/yyyy
 - Update Readme file to show the current version and changelog.
+- Set default time between scans to 30 minutes, in order to avoid the integration and the mobile were blocked due the limit of api calls.
 
 Version 3.4.1
 - Fixed invalid regex warning - Updated regex by @figorr

@@ -12,5 +12,42 @@
         "title": "Configuración"
       }
     }
+  },
+  "entity": {
+    "sensor": {
+      "status": {
+        "name": "Estado"
+      },
+      "water_available": {
+        "name": "Agua Disponible"
+      },
+      "water_usage_today": {
+        "name": "Agua Usada Hoy"
+      },
+      "water_usage_daily_average": {
+        "name": "Promedio de Agua Usada por Día"
+      },
+      "salt_level_percentage": {
+        "name": "Porcentaje de Nivel de Sal"
+      },
+      "out_of_salt_on": {
+        "name": "Agotamiento de Sal en"
+      },
+      "days_until_out_of_salt": {
+        "name": "Días hasta Agotamiento de Sal"
+      },
+      "recharge_enabled": {
+        "name": "Recarga Habilitada"
+      },
+      "recharge_scheduled": {
+        "name": "Recarga Programada"
+      },
+      "last_update": {
+        "name": "Última Actualización"
+      },
+      "update_interval": {
+        "name": "Intervalo de Actualización"
+      }
+    }
   }
 }

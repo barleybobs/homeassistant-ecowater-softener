@@ -12,5 +12,42 @@
         "title": "Einrichtung"
       }
     }
+  },
+  "entity": {
+    "sensor": {
+      "status": {
+        "name": "Status"
+      },
+      "water_available": {
+        "name": "Verfügbares Wasser"
+      },
+      "water_usage_today": {
+        "name": "Heutiger Wasserverbrauch"
+      },
+      "water_usage_daily_average": {
+        "name": "Durchschnittlicher Wasserverbrauch pro Tag"
+      },
+      "salt_level_percentage": {
+        "name": "Salzfüllstand in Prozent"
+      },
+      "out_of_salt_on": {
+        "name": "Salz leer am"
+      },
+      "days_until_out_of_salt": {
+        "name": "Tage bis Salz leer"
+      },
+      "recharge_enabled": {
+        "name": "Aufladung aktiviert"
+      },
+      "recharge_scheduled": {
+        "name": "Aufladung geplant"
+      },
+      "last_update": {
+        "name": "Letzte Aktualisierung"
+      },
+      "update_interval": {
+        "name": "Aktualisierungsintervall"
+      }
+    }
   }
 }

@@ -8,6 +8,7 @@ from homeassistant.core import callback
 
 from ecowater_softener import Ecowater
 
+# Importamos las constantes desde const.py
 from .const import (
     STATUS,
     DAYS_UNTIL_OUT_OF_SALT,
@@ -20,6 +21,7 @@ from .const import (
     RECHARGE_ENABLED,
     RECHARGE_SCHEDULED,
     LAST_UPDATE,
+    INPUT_NUMBER_UPDATE_INTERVAL  # Import the new constant
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -51,7 +53,8 @@ class EcowaterDataCoordinator(DataUpdateCoordinator):
     def _get_update_interval(self):
         """Fetch the update interval from input_number entity."""
         try:
-            interval_minutes = self.hass.states.get("input_number.ecowater_update_interval").state
+            # Aquí reemplazamos la referencia directa con la constante
+            interval_minutes = self.hass.states.get(INPUT_NUMBER_UPDATE_INTERVAL).state
             return timedelta(minutes=int(float(interval_minutes)))
         except Exception as e:
             _LOGGER.error(f"Error fetching update interval: {e}")

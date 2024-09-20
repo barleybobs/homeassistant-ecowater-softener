@@ -38,6 +38,7 @@ You need to manually create a couple of helpers in Home Assistant to help the in
 
 1. Create an input_number to be able to edit this update interval.
    
+   ```
    input_number:
      ecowater_update_interval:
       name: "Update Interval for Ecowater"
@@ -47,14 +48,13 @@ You need to manually create a couple of helpers in Home Assistant to help the in
       unit_of_measurement: "minutes"
       icon: "mdi:timer"
       initial: 30  # Valor por defecto de 30 minutos
-
 2. Create an input_button to save the changes once you have edited the update interval.
 
+   ```
    input_button:
      ecowater_save_interval:
       name: "Save Update Interval for Ecowater"
       icon: "mdi:content-save"
-
 #### HACS
 1. Go to HACS -> Integrations -> Click +
 1. Search for "Ecowater Softener" and add it to HACS

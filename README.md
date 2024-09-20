@@ -47,7 +47,7 @@ You need to manually create a couple of helpers in Home Assistant to help the in
       step: 1
       unit_of_measurement: "minutes"
       icon: "mdi:timer"
-      initial: 30  # Default value is 30 minutos
+      initial: 30  # Default value is 30 minutes
 2. Create an input_button to save the changes once you have edited the update interval.
 
    ```

@@ -43,9 +43,9 @@ class EcowaterSensorEntityDescription(SensorEntityDescription):
 SENSOR_TYPES: tuple[EcowaterSensorEntityDescription, ...] = (
     EcowaterSensorEntityDescription(
         key=STATUS,
-        name="Status",
+        name="Status", # This is the sensor name
         icon="mdi:power",
-        translation_key="status",
+        translation_key="status", # This is the key for the translations of friendly names
     ),
     EcowaterSensorEntityDescription(
         key=WATER_AVAILABLE,

@@ -1,8 +1,10 @@
 from datetime import datetime, timedelta
 import re
 import logging
+import asyncio
 
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
+from homeassistant.core import callback
 
 from ecowater_softener import Ecowater
 
@@ -27,52 +29,49 @@ class EcowaterDataCoordinator(DataUpdateCoordinator):
 
     def __init__(self, hass, username, password, serialnumber, dateformat):
         """Initialize Ecowater coordinator."""
-        super().__init__(
-            hass,
-            _LOGGER,
-            name="Ecowater " + serialnumber,
-            update_interval=timedelta(minutes=30),
-        )
+        self.hass = hass
         self._username = username
         self._password = password
         self._serialnumber = serialnumber
         self._dateformat = dateformat
         self._last_update = None
 
-    async def _async_update_data(self):
-        """Fetch data from API endpoint.
+        # Set initial update interval
+        update_interval = self._get_update_interval()
+        super().__init__(
+            hass,
+            _LOGGER,
+            name="Ecowater " + serialnumber,
+            update_interval=update_interval
+        )
 
-        This is the place to pre-process the data to lookup tables
-        so entities can quickly look up their data.
-        """
+        # Subscribe to changes in the button
+        self.hass.bus.async_listen("state_changed", self._handle_button_press)
+
+    def _get_update_interval(self):
+        """Fetch the update interval from input_number entity."""
+        try:
+            interval_minutes = self.hass.states.get("input_number.ecowater_update_interval").state
+            return timedelta(minutes=int(float(interval_minutes)))
+        except Exception as e:
+            _LOGGER.error(f"Error fetching update interval: {e}")
+            return timedelta(minutes=30)
+
+    async def _async_update_data(self):
+        """Fetch data from API and update the interval if necessary."""
         try:
             data = {}
 
             ecowaterDevice = Ecowater(self._username, self._password, self._serialnumber)
             data_json = await self.hass.async_add_executor_job(lambda: ecowaterDevice._get())
 
-            nextRecharge_re = r"device-info-nextRecharge'\)\.html\('(?P<nextRecharge>.*)'"
+            nextRecharge_re = r"device-info-nextRecharge'\)\.html\('(?P<nextRecharge>.*)'"  # Regex to parse
 
-            data[STATUS] = 'Online' if data_json['online'] == True else 'Offline'
+            data[STATUS] = 'Online' if data_json['online'] else 'Offline'
             data[DAYS_UNTIL_OUT_OF_SALT] = data_json['out_of_salt_days']
 
-            # Checks if date is 'today' or 'tomorrow'
-            if str(data_json['out_of_salt']).lower() == 'today':
-                data[OUT_OF_SALT_ON] = datetime.today().strftime('%Y-%m-%d')
-            elif str(data_json['out_of_salt']).lower() == 'tomorrow':
-                data[OUT_OF_SALT_ON] = (datetime.today() + timedelta(days=1)).strftime('%Y-%m-%d')
-            elif str(data_json['out_of_salt']).lower() == 'yesterday':
-                data[OUT_OF_SALT_ON] = (datetime.today() - timedelta(days=1)).strftime('%Y-%m-%d')
-            # Runs correct datetime.strptime() depending on date format entered during setup.
-            elif self._dateformat == "dd/mm/yyyy":
-                data[OUT_OF_SALT_ON] = datetime.strptime(data_json['out_of_salt'], '%d/%m/%Y').strftime('%d-%m-%Y')
-            elif self._dateformat == "mm/dd/yyyy":
-                data[OUT_OF_SALT_ON] = datetime.strptime(data_json['out_of_salt'], '%m/%d/%Y').strftime('%Y-%m-%d')
-            else:
-                data[OUT_OF_SALT_ON] = ''
-                _LOGGER.exception(
-                    f"Error: Date format not set"
-                )
+            # Handling the salt out date logic
+            data[OUT_OF_SALT_ON] = self._parse_salt_out_date(data_json['out_of_salt'])
 
             data[SALT_LEVEL_PERCENTAGE] = data_json['salt_level_percent']
             data[WATER_USAGE_TODAY] = data_json['water_today']
@@ -80,29 +79,46 @@ class EcowaterDataCoordinator(DataUpdateCoordinator):
             data[WATER_AVAILABLE] = data_json['water_avail']
             data[WATER_UNITS] = str(data_json['water_units'])
             data[RECHARGE_ENABLED] = data_json['rechargeEnabled']
-            data[RECHARGE_SCHEDULED] = False if ( re.search(nextRecharge_re, data_json['recharge']) ).group('nextRecharge') == 'Not Scheduled' else True
+            data[RECHARGE_SCHEDULED] = bool(re.search(nextRecharge_re, data_json['recharge']).group('nextRecharge') != 'Not Scheduled')
             
-            # Update the last time when data is received from the API and the softener is 'Online', according to date format.
-            if data[STATUS] == 'Online':
-                now = datetime.now()
-                if self._dateformat == "dd/mm/yyyy":
-                    self._last_update = now.strftime('%d-%m-%Y - %H:%M')
-                elif self._dateformat == "mm/dd/yyyy":
-                    self._last_update = now.strftime('%m-%d-%Y - %H:%M')
-                else:
-                    self._last_update = now.strftime('%d-%m-%Y - %H:%M')
-                    _LOGGER.exception(
-                        f"Error: Date format not set for last update"
-                    )
+            # Update last update time
+            now = datetime.now()
+            self._last_update = self._format_last_update(now)
+            data[LAST_UPDATE] = self._last_update
 
-                data[LAST_UPDATE] = self._last_update
-            else:
-                if self._last_update:
-                    data[LAST_UPDATE] = self._last_update
-            
             return data
         except Exception as e:
-            # Keeps the last updated date in case of error when downloading data
             if self._last_update:
                 data[LAST_UPDATE] = self._last_update
             raise UpdateFailed(f"Error communicating with API: {e}")
+
+    @callback
+    async def _handle_button_press(self, event):
+        """Handle the button press to save the new update interval."""
+        entity_id = event.data.get("entity_id")
+        if entity_id == "input_button.ecowater_save_interval":
+            _LOGGER.info("Button pressed to save update interval")
+
+            # Fetch the new interval and update the coordinator's interval immediately
+            new_interval = self._get_update_interval()
+            self.update_interval = new_interval
+
+            _LOGGER.info(f"Updated Ecowater update interval to {new_interval}")
+    
+    def _parse_salt_out_date(self, salt_out):
+        """Parse the salt out date."""
+        if salt_out.lower() == 'today':
+            return datetime.today().strftime('%Y-%m-%d')
+        elif salt_out.lower() == 'tomorrow':
+            return (datetime.today() + timedelta(days=1)).strftime('%Y-%m-%d')
+        elif salt_out.lower() == 'yesterday':
+            return (datetime.today() - timedelta(days=1)).strftime('%Y-%m-%d')
+        return ''
+
+    def _format_last_update(self, now):
+        """Format the last update time based on date format."""
+        if self._dateformat == "dd/mm/yyyy":
+            return now.strftime('%d-%m-%Y - %H:%M')
+        elif self._dateformat == "mm/dd/yyyy":
+            return now.strftime('%m-%d-%Y - %H:%M')
+        return now.strftime('%d-%m-%Y - %H:%M')

@@ -12,5 +12,39 @@
         "title": "Setup"
       }
     }
+  },
+  "entity": {
+    "sensor": {
+      "status": {
+        "name": "Status"
+      },
+      "water_available": {
+        "name": "Water Available"
+      },
+      "water_usage_today": {
+        "name": "Water Used Today"
+      },
+      "water_usage_daily_average": {
+        "name": "Average Water Used per Day"
+      },
+      "salt_level_percentage": {
+        "name": "Salt Level Percentage"
+      },
+      "out_of_salt_on": {
+        "name": "Out of Salt On"
+      },
+      "days_until_out_of_salt": {
+        "name": "Days Until Out of Salt"
+      },
+      "recharge_enabled": {
+        "name": "Recharge Enabled"
+      },
+      "recharge_scheduled": {
+        "name": "Recharge Scheduled"
+      },
+      "last_update": {
+        "name": "Last Update"
+      }
+    }
   }
 }

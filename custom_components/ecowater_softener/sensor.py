@@ -43,56 +43,56 @@ class EcowaterSensorEntityDescription(SensorEntityDescription):
 SENSOR_TYPES: tuple[EcowaterSensorEntityDescription, ...] = (
     EcowaterSensorEntityDescription(
         key=STATUS,
-        name="Status",
+        translation_key="status",
         icon="mdi:power",
     ),
     EcowaterSensorEntityDescription(
         key=WATER_AVAILABLE,
-        name="Water Available",
+        translation_key="water_available",
         icon="mdi:water",
         device_class=SensorDeviceClass.WATER,
         state_class=SensorStateClass.TOTAL,
     ),
     EcowaterSensorEntityDescription(
         key=WATER_USAGE_TODAY,
-        name="Water Used Today",
+        translation_key="water_usage_today",
         icon="mdi:water",
         device_class=SensorDeviceClass.WATER,
         state_class=SensorStateClass.TOTAL_INCREASING,
     ),
     EcowaterSensorEntityDescription(
         key=WATER_USAGE_DAILY_AVERAGE,
-        name="Average Water Used per Day",
+        translation_key="water_usage_daily_average",
         icon="mdi:water",
     ),
     EcowaterSensorEntityDescription(
         key=SALT_LEVEL_PERCENTAGE,
-        name="Salt Level Percentage",
+        translation_key="salt_level_percentage",
         icon="mdi:altimeter",
         native_unit_of_measurement=PERCENTAGE,
     ),
     EcowaterSensorEntityDescription(
         key=OUT_OF_SALT_ON,
-        name="Out of Salt On",
+        translation_key="out_of_salt_on",
         icon="mdi:calendar",
     ),
     EcowaterSensorEntityDescription(
         key=DAYS_UNTIL_OUT_OF_SALT,
-        name="Days Until Out of Salt",
+        translation_key="days_until_out_of_salt",
         icon="mdi:calendar",
         native_unit_of_measurement=UnitOfTime.DAYS,
     ),
     EcowaterSensorEntityDescription(
         key=RECHARGE_ENABLED,
-        name="Recharge Enabled",
+        translation_key="recharge_enabled",
     ),
     EcowaterSensorEntityDescription(
         key=RECHARGE_SCHEDULED,
-        name="Recharge Scheduled",
+        translation_key="recharge_scheduled",
     ),
     EcowaterSensorEntityDescription(
         key=LAST_UPDATE,
-        name="Last Update",
+        translation_key="last_update",
         icon="mdi:update",
     ),
 )

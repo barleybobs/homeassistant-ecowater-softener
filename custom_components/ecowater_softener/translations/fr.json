@@ -12,42 +12,5 @@
         "title": "Lier votre compte Ecowater"
       }
     }
-  },
-  "entity": {
-    "sensor": {
-      "status": {
-        "name": "Statut"
-      },
-      "water_available": {
-        "name": "Eau disponible"
-      },
-      "water_usage_today": {
-        "name": "Consommation d'eau aujourd'hui"
-      },
-      "water_usage_daily_average": {
-        "name": "Consommation moyenne d'eau par jour"
-      },
-      "salt_level_percentage": {
-        "name": "Niveau de sel en pourcentage"
-      },
-      "out_of_salt_on": {
-        "name": "Manque de sel à partir de"
-      },
-      "days_until_out_of_salt": {
-        "name": "Jours avant épuisement du sel"
-      },
-      "recharge_enabled": {
-        "name": "Recharge activée"
-      },
-      "recharge_scheduled": {
-        "name": "Recharge programmée"
-      },
-      "last_update": {
-        "name": "Dernière mise à jour"
-      },
-      "update_interval": {
-        "name": "Intervalle de mise à jour"
-      }
-    }
   }
 }

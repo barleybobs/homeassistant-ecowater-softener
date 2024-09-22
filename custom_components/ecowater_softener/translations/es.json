@@ -3,13 +3,47 @@
     "step": {
       "user": {
         "data": {
-          "username": "Usuario",
+          "username": "Nombre de usuario",
           "password": "Contraseña",
-          "serialnumber": "Número de serie (DSN)",
+          "serialnumber": "Número de serie",
           "dateformat": "Formato de fecha"
         },
-        "description": "Ingresa tus credenciales de Ecowater.\nLuego elige el formato de fecha que utiliza tu dispositivo Ecowater.",
+        "description": "Introduce tus credenciales de Ecowater.\nLuego selecciona el formato de fecha que utiliza tu dispositivo Ecowater.",
         "title": "Configuración"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "status": {
+        "name": "Estado"
+      },
+      "water_available": {
+        "name": "Agua Disponible"
+      },
+      "water_usage_today": {
+        "name": "Agua Consumida Hoy"
+      },
+      "water_usage_daily_average": {
+        "name": "Agua Consumida Media Diaria"
+      },
+      "salt_level_percentage": {
+        "name": "Porcentaje Nivel de Sal"
+      },
+      "out_of_salt_on": {
+        "name": "Fecha para Agotar Sal"
+      },
+      "days_until_out_of_salt": {
+        "name": "Días para Agotar Sal"
+      },
+      "recharge_enabled": {
+        "name": "Recarga Activada"
+      },
+      "recharge_scheduled": {
+        "name": "Recarga Programada"
+      },
+      "last_update": {
+        "name": "Última Actualización"
       }
     }
   }

@@ -4,13 +4,24 @@
       "user": {
         "data": {
           "username": "Username",
-          "password": "Password",
-          "serialnumber": "Serial Number",
-          "dateformat": "Date Format"
+          "password": "Password"
         },
         "description": "Enter your Ecowater credentials.\nThen pick the date format that your Ecowater device uses.",
-        "title": "Setup"
+        "title": "Login"
+      },
+      "device": {
+        "data": {
+          "device_serial_number": "Devices"
+        },
+        "description": "Pick which Ecowater device to add.",
+        "title": "Devices"
       }
+    },
+    "error": {
+      "login_fail": "Failed to login. Double check your username and password."
+    },
+    "abort": {
+      "no_available_devices": "No available devices to configure."
     }
   }
 }

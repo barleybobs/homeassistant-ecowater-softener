@@ -1,0 +1,27 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "data": {
+          "username": "Usuario",
+          "password": "Contraseña"
+        },
+        "description": "Introduce tus credenciales de la cuenta de Ecowater.\nA continuación selecciona el formato de fecha que utiliza tu dispostivo Ecowater.",
+        "title": "Acceso"
+      },
+      "device": {
+        "data": {
+          "device_serial_number": "Dispositivos"
+        },
+        "description": "Selecciona el dispositivo Ecowater a añadir.",
+        "title": "Dispositivos"
+      }
+    },
+    "error": {
+      "login_fail": "Falló el acceso. Revisa tu usuario y contraseña."
+    },
+    "abort": {
+      "no_available_devices": "No hay dispositivos disponibles para configurar."
+    }
+  }
+}

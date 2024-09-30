@@ -4,13 +4,24 @@
       "user": {
         "data": {
           "username": "Benutzername",
-          "password": "Passwort",
-          "serialnumber": "Seriennummer",
-          "dateformat": "Datumformat"
+          "password": "Passwort"
         },
-        "description": "Gebe deine Ecowater-Anmeldedaten ein.\n Wähle dann das Datumsformat, das dein Ecowater-Gerät verwendet.",
+        "description": "Gebe deine Ecowater-Anmeldedaten ein.\nWähle dann das Datumsformat, das dein Ecowater-Gerät verwendet.",
         "title": "Einrichtung"
+      },
+      "device": {
+        "data": {
+          "device_serial_number": "Geräte"
+        },
+        "description": "Wählen Sie das Ecowater-Gerät aus, das Sie hinzufügen möchten.",
+        "title": "Geräte"
       }
+    },
+    "error": {
+      "login_fail": "Anmeldung fehlgeschlagen. Überprüfen Sie Ihren Benutzernamen und Ihr Passwort noch einmal."
+    },
+    "abort": {
+      "no_available_devices": "Keine Geräte zum Konfigurieren verfügbar."
     }
   }
 }

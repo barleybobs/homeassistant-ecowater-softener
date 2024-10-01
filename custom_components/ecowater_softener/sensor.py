@@ -38,8 +38,7 @@ from .const import (
     RECHARGE_ENABLED,
     RECHARGE_STATUS,
     ROCK_REMOVED,
-    ROCK_REMOVED_DAILY_AVERAGE,
-    LAST_UPDATE
+    ROCK_REMOVED_DAILY_AVERAGE
 )
 
 from .coordinator import EcowaterDataCoordinator

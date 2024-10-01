@@ -23,5 +23,51 @@
     "abort": {
       "no_available_devices": "Keine Geräte zum Konfigurieren verfügbar."
     }
+   },
+  "entity": {
+    "sensor": {   
+      "water_available": {
+        "name": "Wasser verfügbar"
+      },
+      "water_usage_today": {
+        "name": "Heute verbrauchtes Wasser"
+      },
+      "water_usage_daily_average": {
+        "name": "Durchschnittlicher Wasserverbrauch pro Tag"
+      },
+      "current_water_flow": {
+        "name": "Wasserdurchfluss"
+      },
+      "salt_level_percentage": {
+        "name": "Salzgehalt in Prozent"
+      },
+      "out_of_salt_on": {
+        "name": "Salzmangel am"
+      },
+      "days_until_out_of_salt": {
+        "name": "Tage bis zum Salzmangel"
+      },
+      "salt_type": {
+        "name": "Salztyp"
+      },
+      "last_recharge_date": {
+        "name": "Letzte Aufladung"
+      },
+      "days_since_recharge": {
+        "name": "Tage seit Aufladung"
+      },
+      "recharge_enabled": {
+        "name": "Aufladung aktiviert"
+      },
+      "recharge_status": {
+        "name": "Aufladestatus"
+      },
+      "rock_removed": {
+        "name": "Entfernter Stein"
+      },
+      "rock_removed_daily_average": {
+        "name": "Durchschnittlich pro Tag entfernter Stein"
+      }
+    }
   }
 }

@@ -23,5 +23,51 @@
     "abort": {
       "no_available_devices": "No hay dispositivos disponibles para configurar."
     }
+  },
+  "entity": {
+    "sensor": {      
+      "water_available": {
+        "name": "Agua Disponible"
+      },
+      "water_usage_today": {
+        "name": "Agua Consumida Hoy"
+      },
+      "water_usage_daily_average": {
+        "name": "Agua Consumida Media Diaria"
+      },
+      "current_water_flow": {
+        "name": "Flujo de Agua"
+      },
+      "salt_level_percentage": {
+        "name": "Porcentaje Nivel de Sal"
+      },
+      "out_of_salt_on": {
+        "name": "Fecha para Agotar Sal"
+      },
+      "days_until_out_of_salt": {
+        "name": "Días para Agotar Sal"
+      },
+      "salt_type": {
+        "name": "Tipo de Sal"
+      },
+      "last_recharge_date": {
+        "name": "Última Recarga"
+      },
+      "days_since_recharge": {
+        "name": "Días desde la Recarga"
+      },
+      "recharge_enabled": {
+        "name": "Recarga Activada"
+      },
+      "recharge_status": {
+        "name": "Estado de la Recarga"
+      },
+      "rock_removed": {
+        "name": "Roca Eliminada"
+      },
+      "rock_removed_daily_average": {
+        "name": "Roca Eliminada Media Diaria"
+      }
+    }
   }
 }

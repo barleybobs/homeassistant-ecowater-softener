@@ -23,5 +23,51 @@
     "abort": {
       "no_available_devices": "Aucun appareil disponible à configurer."
     }
+  },
+  "entity": {
+    "sensor": {    
+      "water_available": {
+        "name": "Eau disponible"
+      },
+      "water_usage_today": {
+        "name": "Eau utilisée aujourd'hui"
+      },
+      "water_usage_daily_average": {
+        "name": "Eau moyenne utilisée par jour"
+      },
+      "current_water_flow": {
+        "name": "Débit d'eau"
+      },
+      "salt_level_percentage": {
+        "name": "Pourcentage du niveau de sel"
+      },
+      "out_of_salt_on": {
+        "name": "Sans sel activé"
+      },
+      "days_until_out_of_salt": {
+        "name": "Nombre de jours avant qu'il n'y ait plus de sel"
+      },
+      "salt_type": {
+        "name": "Type de sel"
+      },
+      "last_recharge_date": {
+        "name": "Dernière recharge"
+      },
+      "days_since_recharge": {
+        "name": "Jours depuis la recharge"
+      },
+      "recharge_enabled": {
+        "name": "Recharge activée"
+      },
+      "recharge_status": {
+        "name": "État de la recharge"
+      },
+      "rock_removed": {
+        "name": "Rocher retiré"
+      },
+      "rock_removed_daily_average": {
+        "name": "Moyenne de roches retirées par jour"
+      }
+    }
   }
 }

@@ -1,5 +1,8 @@
 from dataclasses import dataclass
 
+import logging
+
+
 from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.components.sensor import (
     SensorDeviceClass,
@@ -38,10 +41,14 @@ from .const import (
     RECHARGE_ENABLED,
     RECHARGE_STATUS,
     ROCK_REMOVED,
-    ROCK_REMOVED_DAILY_AVERAGE
+    ROCK_REMOVED_DAILY_AVERAGE,
+    LAST_API_CALL_SUCCESSFUL,
+    STATUS
 )
 
 from .coordinator import EcowaterDataCoordinator
+
+_LOGGER = logging.getLogger(__name__)
 
 @dataclass
 class EcowaterSensorEntityDescription(SensorEntityDescription):
@@ -141,6 +148,17 @@ SENSOR_TYPES: tuple[EcowaterSensorEntityDescription, ...] = (
         device_class=SensorDeviceClass.WEIGHT,
         state_class=SensorStateClass.TOTAL,
         native_unit_of_measurement=UnitOfMass.POUNDS
+    ),
+    EcowaterSensorEntityDescription(
+        key=LAST_API_CALL_SUCCESSFUL,
+        translation_key="last_api_call_successful",
+        icon="mdi:calendar-clock",
+        device_class=SensorDeviceClass.TIMESTAMP
+    ),
+    EcowaterSensorEntityDescription(
+        key=STATUS,
+        translation_key="status",
+        icon="mdi:lan-connect"
     )
 )
 

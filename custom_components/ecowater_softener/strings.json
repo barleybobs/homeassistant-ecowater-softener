@@ -4,7 +4,8 @@
       "user": {
         "data": {
           "username": "Username",
-          "password": "Password"
+          "password": "Password",
+          "dateformat": "Date Format"
         },
         "description": "Enter your Ecowater credentials.\nThen pick the date format that your Ecowater device uses.",
         "title": "Login"
@@ -22,6 +23,58 @@
     },
     "abort": {
       "no_available_devices": "No available devices to configure."
+    }
+  },
+  "entity": {
+    "sensor": {      
+      "water_available": {
+        "name": "Water Available"
+      },
+      "water_usage_today": {
+        "name": "Water Used Today"
+      },
+      "water_usage_daily_average": {
+        "name": "Average Water Used per Day"
+      },
+      "current_water_flow": {
+        "name": "Water Flow"
+      },
+      "salt_level_percentage": {
+        "name": "Salt Level Percentage"
+      },
+      "out_of_salt_on": {
+        "name": "Out of Salt On"
+      },
+      "days_until_out_of_salt": {
+        "name": "Days Until Out of Salt"
+      },
+      "salt_type": {
+        "name": "Salt Type"
+      },
+      "last_recharge_date": {
+        "name": "Last Recharge"
+      },
+      "days_since_recharge": {
+        "name": "Days Since Recharge"
+      },
+      "recharge_enabled": {
+        "name": "Recharge Enabled"
+      },
+      "recharge_status": {
+        "name": "Recharge Status"
+      },
+      "rock_removed": {
+        "name": "Rock Removed"
+      },
+      "rock_removed_daily_average": {
+        "name": "Average Rock Removed per Day"
+      },
+      "last_api_call_successful": {
+        "name": "Last Update"
+      },
+      "status": {
+        "name": "Status"
+      }
     }
   }
 }

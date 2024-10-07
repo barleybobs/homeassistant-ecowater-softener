@@ -13,7 +13,8 @@ _LOGGER = logging.getLogger(__name__)
 DATA_SCHEMA_USER = vol.Schema(
     {
         vol.Required("username"): str,
-        vol.Required("password"): str
+        vol.Required("password"): str,
+        vol.Required("dateformat"): vol.In(['dd/mm/yyyy', 'mm/dd/yyyy'])  # Añadir opción de formato de fecha
     }
 )
 
@@ -30,7 +31,9 @@ class EcowaterConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             self.data = user_input
 
             try:
-                ecowater_account = await self.hass.async_add_executor_job(lambda: ecowater_softener.EcowaterAccount(self.data["username"], self.data["password"]))
+                ecowater_account = await self.hass.async_add_executor_job(
+                    lambda: ecowater_softener.EcowaterAccount(self.data["username"], self.data["password"])
+                )
             except:
                 errors["base"] = "login_fail"
                 return self.async_show_form(
@@ -39,7 +42,9 @@ class EcowaterConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     errors=errors
                 )
 
-            ecowater_devices = await self.hass.async_add_executor_job(lambda: ecowater_account.get_devices())
+            ecowater_devices = await self.hass.async_add_executor_job(
+                lambda: ecowater_account.get_devices()
+            )
 
             existing_entries = self._async_current_entries()
             configured_serial_numbers = {entry.data["device_serial_number"] for entry in existing_entries}
@@ -50,7 +55,6 @@ class EcowaterConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 return self.async_abort(reason="no_available_devices")
 
             return await self.async_step_device()
-            
 
         return self.async_show_form(
             step_id="user", 
@@ -62,10 +66,14 @@ class EcowaterConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         if user_input is not None:
             self.data["device_serial_number"] = user_input["device_serial_number"]
 
-            return self.async_create_entry(title="Ecowater " + self.data["device_serial_number"], data=self.data)
+            # Crear entrada de configuración con el formato de fecha seleccionado
+            return self.async_create_entry(
+                title="Ecowater " + self.data["device_serial_number"], 
+                data=self.data  # Aquí se almacena también el formato de fecha elegido
+            )
         
         return self.async_show_form(
-            step_id="device", data_schema= vol.Schema({
+            step_id="device", data_schema=vol.Schema({
                 vol.Required("device_serial_number"): vol.In(self.device_list)
             })
         )

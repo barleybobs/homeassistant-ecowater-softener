@@ -4,7 +4,8 @@
       "user": {
         "data": {
           "username": "Usuario",
-          "password": "Contraseña"
+          "password": "Contraseña",
+          "dateformat": "Formato de fecha"
         },
         "description": "Introduce tus credenciales de la cuenta de Ecowater.\nA continuación selecciona el formato de fecha que utiliza tu dispostivo Ecowater.",
         "title": "Acceso"
@@ -67,6 +68,12 @@
       },
       "rock_removed_daily_average": {
         "name": "Roca Eliminada Media Diaria"
+      },
+      "last_api_call_successful": {
+        "name": "Última Actualización"
+      },
+      "status": {
+        "name": "Estado"
       }
     }
   }

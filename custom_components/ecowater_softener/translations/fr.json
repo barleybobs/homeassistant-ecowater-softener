@@ -4,7 +4,8 @@
       "user": {
         "data": {
           "username": "Nom d'utilisateur",
-          "password": "Mot de passe"
+          "password": "Mot de passe",
+          "dateformat": "Format de date"
         },
         "description": "Entez les information de connexion de votre compte Ecowater.\nEt entrez le format de date que vous avez configuré sur votre compte.",
         "title": "Lier votre compte Ecowater"
@@ -67,6 +68,12 @@
       },
       "rock_removed_daily_average": {
         "name": "Moyenne de roches retirées par jour"
+      },
+      "last_api_call_successful": {
+        "name": "Dernière mise à jour"
+      },
+      "status": {
+        "name": "État"
       }
     }
   }

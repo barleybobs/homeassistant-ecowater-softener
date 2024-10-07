@@ -4,7 +4,8 @@
       "user": {
         "data": {
           "username": "Username",
-          "password": "Password"
+          "password": "Password",
+          "dateformat": "Date Format"
         },
         "description": "Enter your Ecowater credentials.\nThen pick the date format that your Ecowater device uses.",
         "title": "Login"
@@ -67,6 +68,12 @@
       },
       "rock_removed_daily_average": {
         "name": "Average Rock Removed per Day"
+      },
+      "last_api_call_successful": {
+        "name": "Last Update"
+      },
+      "status": {
+        "name": "Status"
       }
     }
   }

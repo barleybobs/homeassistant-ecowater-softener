@@ -1,0 +1,27 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "data": {
+          "username": "Gebruikersnaam",
+          "password": "Wachtwoord"
+        },
+        "description": "Voer uw Ecowater-inloggegevens in. Kies vervolgens de datumnotatie die uw Ecowater-apparaat gebruikt.",
+        "title": "Login"
+      },
+      "device": {
+        "data": {
+          "device_serial_number": "Toestellen"
+        },
+        "description": "Kies welk Ecowater-apparaat u wilt toevoegen.",
+        "title": "Toestellen"
+      }
+    },
+    "error": {
+      "login_fail": "Inloggen mislukt. Controleer uw gebruikersnaam en wachtwoord."
+    },
+    "abort": {
+      "no_available_devices": "Er zijn geen toestellen beschikbaar om te configureren."
+    }
+  }
+}

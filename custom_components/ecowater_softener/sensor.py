@@ -185,7 +185,10 @@ class EcowaterSensor(
         self._serialnumber = serialnumber
 
         self._attr_unique_id = "ecowater_" + serialnumber.lower() + "_" + self.entity_description.key
-        self._attr_native_value = getattr(self.coordinator.data, self.entity_description.key)
+        try:
+            self._attr_native_value = getattr(self.coordinator.data, self.entity_description.key)
+        except Exception as e:
+            self._attr_native_value = None
 
     @property
     def native_unit_of_measurement(self) -> StateType:
